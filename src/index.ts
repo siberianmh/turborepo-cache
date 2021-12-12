@@ -1,8 +1,3 @@
-if (process.env.NODE_ENV === 'development') {
-  require('dotenv').config({
-    path: `${process.env.BUILD_WORKSPACE_DIRECTORY}/.env` ?? undefined,
-  })
-}
 import * as express from 'express'
 
 import { apiRoutes } from './api'
@@ -15,6 +10,9 @@ app.use(express.json())
 app.use(express.raw())
 
 app.use('/', apiRoutes)
+
+const argv = process.argv.slice(2)
+console.log(argv)
 
 app.listen(port, () => {
   console.log(`Server started at http://localhost:${port}`)

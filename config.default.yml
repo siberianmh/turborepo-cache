@@ -1,0 +1,14 @@
+local:
+  dir: path/to/cache-dir
+
+s3:
+  endpoint: http://minio.example.com:9000
+  bucket: test-bucket
+
+  access_key_id: EXAMPLE_ACCESS_KEY
+  secret_access_key: EXAMPLE_SECRET_KEY
+
+auth:
+  allow_unauthenticated_reads: false
+  tokens:
+    - 'some-secret-token'

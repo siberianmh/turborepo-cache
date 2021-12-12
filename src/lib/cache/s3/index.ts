@@ -5,21 +5,22 @@ import {
 } from '@aws-sdk/client-s3'
 import { Readable } from 'node:stream'
 import { ICache } from '../interface'
+import { config } from '../../config'
 
 export class S3Store implements ICache {
   private s3: S3Client = new S3Client({
     region: 'us-east-1',
     forcePathStyle: true,
-    endpoint: 'http://localhost:9000',
+    endpoint: config.s3.endpoint,
     credentials: {
-      accessKeyId: process.env.S3_ACCESS_KEY!,
-      secretAccessKey: process.env.S3_SECRET_KEY!,
+      accessKeyId: config.s3.access_key_id,
+      secretAccessKey: config.s3.secret_access_key,
     },
   })
 
   public constructor() {}
 
-  private bucket = 'turborepo-cache'
+  private bucket = config.s3.bucket
 
   public async getFile(key: string): Promise<Buffer> {
     try {

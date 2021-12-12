@@ -1,6 +1,7 @@
 import * as path from 'node:path'
 import * as fs from 'fs-extra'
 import { ICache } from '../interface'
+import { config } from '../../config'
 
 export class LocalStore implements ICache {
   public constructor() {}
@@ -30,10 +31,6 @@ export class LocalStore implements ICache {
   }
 
   private getPath(...keys: Array<string>) {
-    return path.resolve(
-      process.env.BUILD_WORKSPACE_DIRECTORY!,
-      'turbo-test',
-      ...keys,
-    )
+    return path.resolve(config.local.dir, ...keys)
   }
 }

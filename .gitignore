@@ -12,3 +12,6 @@ e2e-realtesting
 *.log
 .env
 .DS_Store
+
+# Config file
+config.yml
