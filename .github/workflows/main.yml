@@ -1,0 +1,43 @@
+name: Main
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  #############
+  # Compiling #
+  #############
+  compile-bot:
+    runs-on: ubuntu-20.04
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '16'
+          cache: 'yarn'
+      - run: yarn
+      - name: Compile bot
+        run: yarn build
+      #################
+      # Docker Builds #
+      #################
+      - name: Login to Packages Container registry
+        uses: docker/login-action@v1.10.0
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Build Docker PR Image
+        if: github['ref'] != 'refs/heads/main'
+        run: |
+          docker build --pull -f "build/Dockerfile" -t ghcr.io/siberianmh/turborepo-cache:${{ github.event.pull_request.head.sha }} .
+          docker push ghcr.io/siberianmh/turborepo-cache:${{ github.event.pull_request.head.sha }}
+      - name: Build Docker Image
+        if: github['ref'] == 'refs/heads/main'
+        run: |
+          docker build --pull -f "build/Dockerfile" -t ghcr.io/siberianmh/turborepo-cache:latest .
+          docker push ghcr.io/siberianmh/turborepo-cache:latest
