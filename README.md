@@ -22,7 +22,6 @@ npx turborepo run build --api="https://turbocache.example.com" --token="123456"
 - There is no authentication, but this is on the roadmap
 - You still need to login into the Vercel account and link the project
   - I do not fully understand if this is a bug or "feature"
-- Current version of Turborepo is not supported "--api" flag 🙉
 - There is no support for "slug" (?) and "teams", but probably it's only time
   issue
 
