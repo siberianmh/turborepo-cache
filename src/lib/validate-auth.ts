@@ -1,11 +1,16 @@
 import * as express from 'express'
 import { config } from './config'
 
-export const requireAuth = (
+export const validateAuth = (
   req: express.Request,
   res: express.Response,
   next: express.NextFunction,
 ) => {
+  // Nothing to do, since there no authentication setting
+  if (!config.auth) {
+    return next()
+  }
+
   if (req.method === 'GET' && config.auth.allow_unauthenticated_reads) {
     return next()
   }
