@@ -1,7 +1,7 @@
 import * as express from 'express'
 import { config } from './config'
 
-export const requireAuth = (
+export const validateAuth = (
   req: express.Request,
   res: express.Response,
   next: express.NextFunction,

@@ -1,4 +1,4 @@
-name: Main
+name: CI
 
 on:
   push:
@@ -7,7 +7,7 @@ on:
     branches: [main]
 
 jobs:
-  compile-bot:
+  compile:
     runs-on: ubuntu-20.04
 
     steps:
@@ -25,11 +25,6 @@ jobs:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-      - name: Build Docker PR Image
-        if: github['ref'] != 'refs/heads/main'
-        run: |
-          docker build --pull -f "build/Dockerfile" -t ghcr.io/siberianmh/turborepo-cache:${{ github.event.pull_request.head.sha }} .
-          docker push ghcr.io/siberianmh/turborepo-cache:${{ github.event.pull_request.head.sha }}
       - name: Build Docker Image
         if: github['ref'] == 'refs/heads/main'
         run: |
